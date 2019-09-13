@@ -54,7 +54,7 @@ describe Mongoid::Alize::Callbacks::From::Many do
       @head = Head.create
       @person = Person.create(:name => "Bob")
 
-      @head.relations["wanted_by"].should be_stores_foreign_key
+      @head.associations["wanted_by"].should be_stores_foreign_key
     end
 
     describe "valid fields" do
@@ -109,7 +109,7 @@ describe Mongoid::Alize::Callbacks::From::Many do
       @callback.send(:define_denorm_attrs)
       @callback.send(:define_callback)
 
-      @head.relations["sees"].should_not be_stores_foreign_key
+      @head.associations["sees"].should_not be_stores_foreign_key
     end
 
     it "should field from a changed relation" do
