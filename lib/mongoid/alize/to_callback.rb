@@ -110,20 +110,20 @@ module Mongoid
 
       def is_one?
         if inverse_relation
-          if self.inverse_metadata.relation.superclass == Mongoid::Relations::One
+          if self.inverse_metadata.relation.superclass == Mongoid::Associations::One
             "true"
           else
             "false"
           end
         else
           <<-RUBIES
-            (#{find_relation}.relation.superclass == Mongoid::Relations::One)
+            (#{find_relation}.relation.superclass == Mongoid::Associations::One)
           RUBIES
         end
       end
 
       def find_relation
-        "relation.class.relations.values.find { |metadata| metadata.inverse(self) == :#{relation} && metadata.class_name == self.class.name }"
+        "relation.class.associations.values.find { |metadata| metadata.inverse(self) == :#{relation} && metadata.class_name == self.class.name }"
       end
 
       def iterable_relation

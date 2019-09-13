@@ -81,7 +81,7 @@ describe Mongoid::Alize::Callbacks::From::One do
     end
 
     it "should not run if the relation has not changed" do
-      @head.relations["person"].should be_stores_foreign_key
+      @head.associations["person"].should be_stores_foreign_key
       @head.should_not be_person_id_changed
       dont_allow(@head).person
       run_callback
@@ -115,7 +115,7 @@ describe Mongoid::Alize::Callbacks::From::One do
       @head = Head.create(:size => 5)
 
       @callback.send(:define_callback)
-      @person.relations["head"].should_not be_stores_foreign_key
+      @person.associations["head"].should_not be_stores_foreign_key
     end
 
     it "should set values from a changed relation" do

@@ -6,7 +6,7 @@ module Mongoid
 
       def alize(relation, *fields)
         alize_from(relation, *fields)
-        metadata = self.relations[relation.to_s]
+        metadata = self.associations[relation.to_s]
         unless _alize_unknown_inverse?(metadata)
           metadata.klass.alize_to(metadata.inverse, *fields)
         end
@@ -19,7 +19,7 @@ module Mongoid
         from_many = Mongoid::Alize::Callbacks::From::Many
 
         klass = self
-        metadata = klass.relations[relation.to_s]
+        metadata = klass.associations[relation.to_s]
         relation_superclass = metadata.relation.superclass
 
         callback_klass =
@@ -45,7 +45,7 @@ module Mongoid
         one, many = _alize_relation_types
 
         klass = self
-        metadata = klass.relations[relation.to_s]
+        metadata = klass.associations[relation.to_s]
         relation_superclass = metadata.relation.superclass
 
         options = fields.extract_options!
@@ -76,13 +76,8 @@ module Mongoid
       end
 
       def _alize_relation_types
-        one  = Mongoid::Relations::One
-        many = Mongoid::Relations::Many
-
-        def (many).==(klass)
-          [Mongoid::Relations::Many,
-           Mongoid::Relations::Referenced::Many].map(&:name).include?(klass.name)
-        end
+        one  = Mongoid::Associations::One
+        many = Mongoid::Associations::Many
 
         [one, many]
       end
