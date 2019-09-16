@@ -79,11 +79,6 @@ module Mongoid
         one  = Mongoid::Relations::One
         many = Mongoid::Relations::Many
 
-        def (many).==(klass)
-          [Mongoid::Relations::Many,
-           Mongoid::Relations::Referenced::Many].map(&:name).include?(klass.name)
-        end
-
         [one, many]
       end
     end
