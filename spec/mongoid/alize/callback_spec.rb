@@ -32,8 +32,8 @@ describe Mongoid::Alize::Callback do
       callback.klass.should == Head
       callback.relation.should == :person
       callback.inverse_klass = Person
-      callback.inverse_relation = :head
-      callback.inverse_metadata.should == Person.associations["head"]
+      callback.inverse_relation = :heads
+      callback.inverse_metadata.should == Person.relations["heads"]
       callback.denorm_attrs.should == [:name, :created_at]
     end
 

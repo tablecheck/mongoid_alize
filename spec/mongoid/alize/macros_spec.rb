@@ -53,16 +53,16 @@ describe Mongoid::Alize::Macros do
 
       describe "with a polymorphic association" do
         it "should attach an inverse callback to the parent side" do
-          Person.associations["nearest_head"].should be_polymorphic
-          Person.associations["nearest_head"].should_not be_stores_foreign_key
-          Person.associations["nearest_head"].klass.should == Head
+          Person.relations["nearest_head"].should be_polymorphic
+          Person.relations["nearest_head"].should_not be_stores_foreign_key
+          Person.relations["nearest_head"].klass.should == Head
           mock.proxy(Mongoid::Alize::ToCallback).new(Head, :nearest, head_default_fields)
           Person.alize(:nearest_head)
         end
 
         it "should not attach a callback on the child side" do
-          Head.associations["nearest"].should be_polymorphic
-          Head.associations["nearest"].should be_stores_foreign_key
+          Head.relations["nearest"].should be_polymorphic
+          Head.relations["nearest"].should be_stores_foreign_key
           dont_allow(Mongoid::Alize::ToCallback).new
           Head.alize(:nearest)
         end
@@ -70,7 +70,7 @@ describe Mongoid::Alize::Macros do
 
       describe "when no inverse is present" do
         it "should add only a from callback" do
-          Head.associations["admirer"].inverse.should be_nil
+          Head.relations["admirer"].inverse.should be_nil
           dont_allow(Mongoid::Alize::ToCallback).new
           Head.alize(:admirer)
         end

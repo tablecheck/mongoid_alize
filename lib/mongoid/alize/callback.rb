@@ -21,12 +21,12 @@ module Mongoid
         self.relation = _relation
         self.denorm_attrs = _denorm_attrs
 
-        self.metadata = _klass.associations[_relation.to_s]
+        self.metadata = _klass.relations[_relation.to_s]
         if !(self.metadata.polymorphic? &&
               self.metadata.stores_foreign_key?)
           self.inverse_klass = self.metadata.klass
           self.inverse_relation = self.metadata.inverse
-          self.inverse_metadata = self.inverse_klass.associations[inverse_relation.to_s]
+          self.inverse_metadata = self.inverse_klass.relations[inverse_relation.to_s]
         end
       end
 

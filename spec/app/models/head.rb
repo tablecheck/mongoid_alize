@@ -11,7 +11,7 @@ class Head
 
   if Mongoid::Compatibility::Version.mongoid6_or_newer?
     # to whom it's attached
-    belongs_to :person, optional: true
+    belongs_to :person, optional: true, :inverse_of => :heads
 
     # in whose possession it is
     belongs_to :captor, :class_name => "Person", :inverse_of => :heads, optional: true
@@ -35,13 +35,16 @@ class Head
   if Mongoid::Compatibility::Version.mongoid6_or_newer?
     # a polymorphic one-to-one relation
     belongs_to :nearest, :polymorphic => true, optional: true
+
+    # a polymorphic one-to-many relation
+    has_many :below_people, :class_name => "Person", :as => :above
   else
     # a polymorphic one-to-one relation
     belongs_to :nearest, :polymorphic => true
+    
+    # a polymorphic one-to-many relation
+    has_many :below_people, :class_name => "Person", :as => :above
   end
-
-  # a polymorphic one-to-many relation
-  has_many :below_people, :class_name => "Person", :as => :above
 
   def density
     "low"
